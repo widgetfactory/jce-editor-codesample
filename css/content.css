@@ -1,0 +1,9 @@
+pre[class*="language-"].mce-item-selected {
+    outline: 3px solid #b4d7ff !important;
+    cursor: not-allowed;
+}
+
+pre[class*="language-"].mce-item-selected::selection,
+pre[class*="language-"].mce-item-selected span::selection {
+    background: transparent;
+}

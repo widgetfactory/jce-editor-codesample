@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<extension version="2.5" type="plugin" group="jce" method="upgrade">
+	<name>JCE - CodeSample</name>
+	<version>1.0.0</version>
+	<creationDate>May 2019</creationDate>
+	<author>Ryan Demmer</author>
+	<authorEmail>info@joomlacontenteditor.net</authorEmail>
+	<authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+	<copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+	<license>GNU/GPL Version 2 - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<description>Code Sample plugin for JCE</description>
+	<icon image="plugins/jce/editor-codesample/img/code.png">codesample</icon>
+	<files folder="plugins/jce/editor-codesample">
+		<file plugin="editor-codesample">editor_plugin.js</file>
+		<file>index.html</file>
+		<folder>css</folder>
+		<folder>img</folder>
+	</files>
+	<params group="standard"></params>
+	<languages></languages>
+	<help></help>
+</extension>
