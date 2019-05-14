@@ -10,7 +10,7 @@
 	<license>GNU/GPL Version 2 - http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<description>Code Sample plugin for JCE</description>
 	<icon image="plugins/jce/editor-codesample/img/code.png">codesample</icon>
-	<files folder="plugins/jce/editor-codesample">
+	<files>
 		<file plugin="editor-codesample">editor_plugin.js</file>
 		<file>index.html</file>
 		<folder>css</folder>
