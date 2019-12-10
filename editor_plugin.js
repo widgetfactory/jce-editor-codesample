@@ -1197,6 +1197,14 @@
 
         var node = getSelectedCodeSample(editor);
 
+        if (!code) {
+            if (node) {
+                editor.dom.remove(node);
+            }
+
+            return false;
+        }
+
         code = DOM.encode(code);
 
         if (node) {
@@ -1375,97 +1383,85 @@
                     }
                 }
             });
-        },
 
-        createControl: function (n, cm) {
-            var self = this,
-                ed = this.editor, url = this.url;
+            editor.addButton('codesample', {
+                title: 'Codesample',
+                onclick: function () {
+                    var html = '';
 
-            if (n !== "codesample") {
-                return;
-            }
+                    html += '<div class="mcePanelRow">';
+                    html += '   <label for="' + editor.id + '_codesample_language">' + editor.getLang('codesample.language', 'Language') + '</label>';
+                    html += '   <div class="mceModalControl">';
+                    html += '       <select id="' + editor.id + '_codesample_language">';
 
-            var html = '';
+                    each(defaultLanguages, function (item) {
+                        html += '   <option value="' + item.value + '">' + item.text + '</option>';
+                    });
 
-            html += '<h4>' + ed.getLang('codesample.desc', 'Insert Code Sample') + '</h4>';
+                    html += '       </select>';
+                    html += '   </div>';
+                    html += '</div>';
 
-            html += '<div class="mceDialogRow">';
-            html += '   <label for="' + ed.id + '_codesample_language">' + ed.getLang('codesample.language', 'Language') + '</label>';
-            html += '   <select id="' + ed.id + '_codesample_language">';
+                    html += '<div class="mcePanelRow">';
+                    html += '   <label for="' + editor.id + '_codesample_code">' + editor.getLang('codesample.code', 'Code') + '</label>';
+                    html += '   <div class="mceModalControl">';
+                    html += '       <textarea id="' + editor.id + '_codesample_code" rows="5" autofocus required></textarea>';
+                    html += '   </div>';
+                    html += '</div>';
 
-            each(defaultLanguages, function (item) {
-                html += '   <option value="' + item.value + '">' + item.text + '</option>';
-            });
+                    editor.windowManager.open({
+                        title: editor.getLang('codesample.desc', 'Insert Code Sample'),
+                        content: html,
+                        size: 'mce-modal-landscape-medium',
+                        open: function () {
+                            var input = DOM.get(editor.id + '_codesample_code');
+                            var select = DOM.get(editor.id + '_codesample_language');
 
-            html += '   </select>';
-            html += '</div>';
+                            // reset
+                            input.value = '';
 
-            html += '<div class="mceDialogRow">';
-            html += '   <label for="' + ed.id + '_codesample_code">' + ed.getLang('codesample.code', 'Code') + '</label>';
-            html += '   <textarea id="' + ed.id + '_codesample_code"></textarea>';
-            html += '</div>';
+                            var label = editor.getLang('insert', 'Insert');
 
-            var c = new tinymce.ui.ButtonDialog(cm.prefix + 'codesample', {
-                title: ed.getLang('codesample.desc', 'Insert Code Sample'),
-                'class': 'mce_codesample',
-                'content': html,
-                'width': 320,
-                image: url + '/img/code.png',
-                'buttons': [{
-                    title: ed.getLang('insert', 'Insert'),
-                    id: 'insert',
-                    click: function (e) {
-                        var code = DOM.get(ed.id + '_codesample_code').value;
-                        var language = getValue(DOM.get(ed.id + '_codesample_language'));
+                            var value = getCurrentCode(editor);
+                            var lang = getCurrentLanguage(editor);
 
-                        insertCodeSample(ed, language, code);
+                            if (value) {
+                                input.value = getCurrentCode(editor);
+                                label = editor.getLang('update', 'Update');
 
-                        c.hideDialog();
-                    },
-                    classes: 'mceDialogButtonPrimary',
-                    scope: self
-                }]
-            }, ed);
+                                DOM.setHTML(this.id + '_insert', label);
+                            }
 
-            c.onShowDialog.add(function () {
-                input = DOM.get(ed.id + '_codesample_code');
-                select = DOM.get(ed.id + '_codesample_language');
+                            if (lang) {
+                                setValue(select, lang);
+                            }
+                        },
+                        buttons: [
+                            {
+                                title: editor.getLang('common.insert', 'Insert'),
+                                id: 'insert',
+                                onsubmit: function (e) {
+                                    var code = DOM.get(editor.id + '_codesample_code').value;
+                                    var language = getValue(DOM.get(editor.id + '_codesample_language'));
 
-                // reset
-                input.value = '';
+                                    if (!code) {
+                                        e.cancelSubmit = true;
+                                        return;
+                                    }
 
-                var label = ed.getLang('insert', 'Insert');
-
-                var value = getCurrentCode(ed);
-                var lang = getCurrentLanguage(ed);
-
-                if (value) {
-                    input.value = getCurrentCode(ed);
-                    label = ed.getLang('update', 'Update');
+                                    insertCodeSample(editor, language, code);
+                                },
+                                classes: 'primary',
+                                autofocus: true
+                            },
+                            {
+                                title: editor.getLang('common.cancel', 'Cancel'),
+                                id: 'cancel'
+                            }
+                        ]
+                    });
                 }
-
-                if (lang) {
-                    setValue(select, lang);
-                }
-
-                c.setActive(!!value);
-
-                c.setButtonDisabled('remove', !value);
-                c.setButtonLabel('insert', label);
-
-                input.focus();
-            });
-
-            c.onHideDialog.add(function () {
-                DOM.get(ed.id + '_codesample_code').value = '';
-            });
-
-            // Remove the menu element when the editor is removed
-            ed.onRemove.add(function () {
-                c.destroy();
-            });
-
-            return cm.add(c);
+            })
         }
     });
 
