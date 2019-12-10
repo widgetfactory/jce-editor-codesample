@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <extension version="2.5" type="plugin" group="jce" method="upgrade">
 	<name>JCE - CodeSample</name>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<creationDate>December 2019</creationDate>
 	<author>Ryan Demmer</author>
 	<authorEmail>info@joomlacontenteditor.net</authorEmail>
