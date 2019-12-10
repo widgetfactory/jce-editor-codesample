@@ -13,7 +13,6 @@
 	<files>
 		<file plugin="editor-codesample">editor_plugin.js</file>
 		<folder>css</folder>
-		<folder>img</folder>
 	</files>
 	<params group="standard"></params>
 	<languages></languages>
