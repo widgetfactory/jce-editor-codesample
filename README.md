@@ -11,4 +11,4 @@ Click [here to download](https://github.com/widgetfactory/jce-editor-codesample/
 ## Installation
 Install using the Joomla Extensions Installer - https://docs.joomla.org/Installing_an_extension
 
-After installation, assign the plugin to an Editor Profile in Editor Profiles -> Features & Layout -> Additional Features.
+After installation, add the Code Sample button to the editor toolbar in Editor Profiles -> Features & Layout.
